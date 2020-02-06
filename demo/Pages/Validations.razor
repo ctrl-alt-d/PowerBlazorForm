@@ -1,0 +1,88 @@
+﻿@page "/validations"
+@using demo.Data
+@using PowerBlazorEditFormLib.BlazorControls
+
+<h1>Validations demo</h1>
+
+<h1>Starfleet Starship Database</h1>
+
+<h2>New Ship Entry Form</h2>
+
+<EditFormPlus EditContext="@MyEditContext" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <p>
+        <label>
+            Identifier:
+            <InputText @bind-Value="_starship.Identifier" />
+            <ValidationMessagePlus For="@( ()=>_starship.Identifier )" />
+        </label>
+    </p>
+    <p>
+        <label>
+            Description (optional):
+            <InputTextArea @bind-Value="_starship.Description" />
+        </label>
+    </p>
+    <p>
+        <label>
+            Primary Classification:
+            <InputSelect @bind-Value="_starship.Classification">
+                <option value="">Select classification ...</option>
+                <option value="Exploration">Exploration</option>
+                <option value="Diplomacy">Diplomacy</option>
+                <option value="Defense">Defense</option>
+            </InputSelect>
+            <ValidationMessagePlus For="@( ()=>_starship.Classification )" />
+        </label>
+    </p>
+    <p>
+        <label>
+            Maximum Accommodation:
+            <InputNumber @bind-Value="_starship.MaximumAccommodation" />
+            <ValidationMessagePlus For="@( ()=>_starship.MaximumAccommodation )" />
+        </label>
+    </p>
+    <p>
+        <label>
+            <InputCheckbox @bind-Value="_starship.IsValidatedDesign" />
+            Engineering Approval (No <em>ValidationMessage</em> on input):
+            
+        </label>
+    </p>
+    <p>
+        <label>
+            Production Date:
+            <InputDate @bind-Value="_starship.ProductionDate" />
+            <ValidationMessagePlus For="@( ()=>_starship.ProductionDate )" />
+        </label>
+    </p>
+
+    <button type="submit">Submit</button>
+    <p style="border: 1px solid; padding: 20px; margin-top: 10px">
+        Summary Validations area, only for "Engineering Approval"
+        <ValidationSummaryPlus />
+    </p>
+
+    <p>
+        <a href="http://www.startrek.com/">Star Trek</a>, 
+        &copy;1966-2019 CBS Studios, Inc. and 
+        <a href="https://www.paramount.com">Paramount Pictures</a>
+    </p>
+</EditFormPlus>
+
+@code {
+    private Starship _starship = new Starship();
+    protected EditContext MyEditContext;
+
+    protected string GetIdentifierCss() => (MyEditContext?.FieldCssClass( () => _starship.Identifier ) ?? "" ) == "Invalid" ? "IsInvalid" : "" ;
+
+    protected override void OnInitialized()
+    {
+        MyEditContext = new EditContext(_starship);
+    }
+
+    private void HandleValidSubmit()
+    {
+        Console.WriteLine("OnValidSubmit");
+    }
+}

@@ -34,3 +34,10 @@ This project is a demo about how to customize EditForm, ValidationMessage and Va
 </EditFormPlus>
 ```
 
+#### Screen shot 
+
+_(because all us love screenshots)_
+
+![screenshot demo](./ScreenShots/validations.gif)
+
+
